@@ -4,12 +4,14 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+  console.warn('Supabase environment variables not found. Contact form will work in demo mode.');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
-// Database types
+// Database types for contact functionality
 export interface Database {
   public: {
     Tables: {
@@ -50,50 +52,6 @@ export interface Database {
           guests?: number;
           message?: string;
           status?: 'pending' | 'confirmed' | 'cancelled';
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-      menu_items: {
-        Row: {
-          id: string;
-          name: string;
-          description: string;
-          price: number;
-          category: string;
-          image_url?: string;
-          is_vegetarian: boolean;
-          is_special: boolean;
-          spice_level: number;
-          is_available: boolean;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          name: string;
-          description: string;
-          price: number;
-          category: string;
-          image_url?: string;
-          is_vegetarian?: boolean;
-          is_special?: boolean;
-          spice_level?: number;
-          is_available?: boolean;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          name?: string;
-          description?: string;
-          price?: number;
-          category?: string;
-          image_url?: string;
-          is_vegetarian?: boolean;
-          is_special?: boolean;
-          spice_level?: number;
-          is_available?: boolean;
           created_at?: string;
           updated_at?: string;
         };
